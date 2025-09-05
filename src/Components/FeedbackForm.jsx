@@ -9,12 +9,30 @@ const [formData, setFormData] = useState({
 });
 const handleChange = (event) => {
     const { name, value } = event.target;
-    setFormData({
-        ...formData,
-        [name]: value
-    });
-};
+            setFormData({
+                ...formData,
+                [name]: value
+            })
+}
 
+const handleSubmit = (event) {
+    event.preventDefault();
+    const confirmationMessage = `
+    Name: ${formData.name}
+    Email: ${formData.email}
+    Feedback: ${formData.feedback}
+    `;
+    const isConfirmed = window.confirm(`Please confirm yout details \n\n${confirmationMessage}`);
+    if(isConfirmed){
+        console.log('Submitting feedback: ', formData);
+        setFormData({
+            name: '',
+            email: '',
+            feedback: ''
+        });
+        alert('Thank you for your valuable feedback!');
+    }
+};
 
   return (
     <>
@@ -27,16 +45,18 @@ const handleChange = (event) => {
         <input 
             type="text"
             name="name"
-            
+            value={formData.name}
             placeholder="Your Name"
         />
         <input 
             type="email"
             name="email"
+            value={formData.email}
             placeholder="Your Email"
         />
         <textarea
             name="feedback"
+            value={formData.feedback}
             placeholder="Your Feedback"
         ></textarea>
         <button type="submit" onClick={handleChange}>Submit Feedback</button>
